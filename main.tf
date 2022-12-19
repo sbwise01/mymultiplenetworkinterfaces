@@ -107,8 +107,6 @@ resource "aws_instance" "vmwware_workstation_1" {
   key_name               = "bwise"
   vpc_security_group_ids = [aws_security_group.ec2_allow.id]
   subnet_id              = var.subnet_id
-  private_ip             = "172.31.8.243"
-  secondary_private_ips  = ["172.31.11.129"]
 
   root_block_device {
     volume_size = "2000"
@@ -143,8 +141,6 @@ resource "aws_instance" "vmwware_workstation_2" {
   key_name               = "bwise"
   vpc_security_group_ids = [aws_security_group.ec2_allow.id]
   subnet_id              = var.subnet_id
-  private_ip             = "172.31.8.244"
-  secondary_private_ips  = ["172.31.11.130"]
 
   root_block_device {
     volume_size = "2000"
@@ -178,8 +174,6 @@ resource "aws_instance" "vmwware_workstation_3" {
   key_name               = "bwise"
   vpc_security_group_ids = [aws_security_group.ec2_allow.id]
   subnet_id              = var.subnet_id
-  private_ip             = "172.31.8.245"
-  secondary_private_ips  = ["172.31.11.131"]
 
   root_block_device {
     volume_size = "200"
