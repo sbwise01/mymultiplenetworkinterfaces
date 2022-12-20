@@ -53,7 +53,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {
@@ -89,6 +89,8 @@ resource "aws_network_interface" "vmwware_workstation_1_network_interface_2" {
   subnet_id         = var.subnet_id
   security_groups   = [aws_security_group.ec2_allow.id]
   source_dest_check = "false"
+  private_ips       = ["172.31.11.129"]
+
   attachment {
     instance     = aws_instance.vmwware_workstation_1.id
     device_index = 1
@@ -108,10 +110,9 @@ resource "aws_instance" "vmwware_workstation_1" {
   vpc_security_group_ids = [aws_security_group.ec2_allow.id]
   subnet_id              = var.subnet_id
   private_ip             = "172.31.8.243"
-  secondary_private_ips  = ["172.31.11.129"]
 
   root_block_device {
-    volume_size = "2000"
+    volume_size = "20"
     volume_type = "gp2"
   }
 
@@ -124,6 +125,8 @@ resource "aws_network_interface" "vmwware_workstation_2_network_interface_2" {
   subnet_id         = var.subnet_id
   security_groups   = [aws_security_group.ec2_allow.id]
   source_dest_check = "false"
+  private_ips       = ["172.31.11.130"]
+
   attachment {
     instance     = aws_instance.vmwware_workstation_2.id
     device_index = 1
@@ -144,10 +147,9 @@ resource "aws_instance" "vmwware_workstation_2" {
   vpc_security_group_ids = [aws_security_group.ec2_allow.id]
   subnet_id              = var.subnet_id
   private_ip             = "172.31.8.244"
-  secondary_private_ips  = ["172.31.11.130"]
 
   root_block_device {
-    volume_size = "2000"
+    volume_size = "20"
     volume_type = "gp2"
   }
 
@@ -160,6 +162,8 @@ resource "aws_network_interface" "vmwware_workstation_3_network_interface_2" {
   subnet_id         = var.subnet_id
   security_groups   = [aws_security_group.ec2_allow.id]
   source_dest_check = "false"
+  private_ips       = ["172.31.11.131"]
+
   attachment {
     instance     = aws_instance.vmwware_workstation_3.id
     device_index = 1
@@ -179,10 +183,9 @@ resource "aws_instance" "vmwware_workstation_3" {
   vpc_security_group_ids = [aws_security_group.ec2_allow.id]
   subnet_id              = var.subnet_id
   private_ip             = "172.31.8.245"
-  secondary_private_ips  = ["172.31.11.131"]
 
   root_block_device {
-    volume_size = "200"
+    volume_size = "20"
     volume_type = "gp2"
   }
 
@@ -204,6 +207,16 @@ resource "aws_security_group_rule" "ec2_ingress_instances_all" {
   cidr_blocks       = ["98.97.8.169/32"]
   description       = "Allow (port 443) traffic inbound to VMWare Workstation instance"
   security_group_id = aws_security_group.ec2_allow.id
+}
+
+resource "aws_security_group_rule" "ec2_ingress_instances_self" {
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 0
+  protocol                 = "-1"
+  source_security_group_id = aws_security_group.ec2_allow.id
+  description              = "Allow (port 443) traffic inbound to VMWare Workstation instance"
+  security_group_id        = aws_security_group.ec2_allow.id
 }
 
 resource "aws_security_group_rule" "ec2_egress_instances_all" {
