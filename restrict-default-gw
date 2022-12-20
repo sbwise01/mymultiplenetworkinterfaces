@@ -1,0 +1,7 @@
+case ${interface} in
+  ens5)
+    ;;
+  *)
+    unset new_routers
+    ;;
+esac
