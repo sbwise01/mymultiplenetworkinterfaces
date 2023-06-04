@@ -142,14 +142,14 @@ resource "aws_network_interface" "vmwware_workstation_2_network_interface_2" {
 resource "aws_instance" "vmwware_workstation_2" {
   ami                    = data.aws_ami.ubuntu.id
   iam_instance_profile   = aws_iam_instance_profile.vmwware_workstation.name
-  instance_type          = var.instance_type
+  instance_type          = "c5n.metal"
   key_name               = "bwise"
   vpc_security_group_ids = [aws_security_group.ec2_allow.id]
   subnet_id              = var.subnet_id
   private_ip             = "172.31.8.244"
 
   root_block_device {
-    volume_size = "20"
+    volume_size = "2000"
     volume_type = "gp2"
   }
 
